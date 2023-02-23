@@ -19,3 +19,23 @@ module.exports.signup = (req, res) => {
       res.send({ code: 500, messgae: "Signup Err" });
     });
 };
+
+module.exports.signin = (req, res) => {
+  console.log(req.body);
+
+  // email and password match
+
+  UserModel.findOne({ email: req.body.email })
+    .then((result) => {
+      console.log(result);
+      //match password with req.body.password
+      if (result.password !== req.body.password) {
+        res.send({ code: 404, message: "password wrong" });
+      } else {
+        res.send({ code: 200, message: "user found", token: "hahha" });
+      }
+    })
+    .catch((err) => {
+      res.send({ code: 500, message: "User not found" });
+    });
+};
